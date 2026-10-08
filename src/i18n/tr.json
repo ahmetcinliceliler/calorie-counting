@@ -1,0 +1,75 @@
+{
+  "common": {
+    "continue": "Devam Et",
+    "back": "Geri",
+    "save": "Kaydet",
+    "cancel": "Vazgeç",
+    "kcal": "kcal",
+    "g": "g",
+    "today": "Bugün",
+    "yesterday": "Dün"
+  },
+  "tabs": {
+    "today": "Bugün",
+    "history": "Geçmiş",
+    "profile": "Profil"
+  },
+  "today": {
+    "remaining": "Kalan Kalori",
+    "goal": "Hedef: {{value}}",
+    "eaten": "Alınan",
+    "burned": "Yakılan",
+    "protein": "Protein",
+    "carbs": "Karb",
+    "fat": "Yağ",
+    "meals": "Öğünler",
+    "empty": "Bugün henüz bir şey eklemedin."
+  },
+  "history": {
+    "title": "Geçmiş",
+    "comingSoon": "Günlük geçmişin burada görünecek."
+  },
+  "profile": {
+    "title": "Profil",
+    "dailyGoal": "Günlük hedef",
+    "macroGoals": "Makro hedefleri",
+    "reset": "Profili sıfırla"
+  },
+  "onboarding": {
+    "title": "Seni Tanıyalım",
+    "step": "Adım {{current}} / {{total}}",
+    "genderQuestion": "Cinsiyetin nedir?",
+    "male": "Erkek",
+    "female": "Kadın",
+    "bodyQuestion": "Vücut ölçülerin",
+    "weight": "Kilo (kg)",
+    "targetWeight": "Hedef kilo (kg)",
+    "height": "Boy (cm)",
+    "age": "Yaş",
+    "goalQuestion": "Hedefin ve aktivite düzeyin",
+    "activity": "Aktivite",
+    "goal": "Hedef",
+    "finish": "Hesapla ve Başla",
+    "summaryTitle": "Günlük hedefin hazır",
+    "invalid": {
+      "gender": "Lütfen cinsiyet seç.",
+      "weight": "Kilo 30 ile 300 arasında olmalı.",
+      "height": "Boy 100 ile 250 arasında olmalı.",
+      "age": "Yaş 13 ile 100 arasında olmalı.",
+      "targetWeight": "Hedef kilo 30 ile 300 arasında olmalı."
+    }
+  },
+  "activity": {
+    "sedentary": "Hareketsiz",
+    "light": "Az hareketli",
+    "moderate": "Orta",
+    "active": "Çok hareketli",
+    "veryActive": "Sporcu"
+  },
+  "goal": {
+    "lose": "Kilo ver",
+    "maintain": "Koru",
+    "gain": "Kilo al"
+  },
+  "disclaimer": "Bu uygulama tıbbi tavsiye vermez. Sağlık durumun için bir uzmana danış."
+}

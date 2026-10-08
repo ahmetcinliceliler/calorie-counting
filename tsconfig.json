@@ -3,6 +3,8 @@
   "compilerOptions": {
     "strict": true,
     "types": ["jest"],
+    "noEmit": true,
+    "allowImportingTsExtensions": true,
     "paths": {
       "@/*": [
         "./src/*"
@@ -12,6 +14,12 @@
       ]
     }
   },
+  "exclude": [
+    "node_modules",
+    "supabase/functions/**/index.ts",
+    "supabase/functions/_shared/deno-deps.ts",
+    "supabase/functions/_shared/__tests__"
+  ],
   "include": [
     "**/*.ts",
     "**/*.tsx",

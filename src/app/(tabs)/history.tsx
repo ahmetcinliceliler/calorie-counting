@@ -3,6 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { AppText, Card, EmptyState, ListRow, Loading, Screen } from '@/components/ui';
+import { AdBanner } from '@/components/AdBanner';
 import { useHistory } from '@/features/day/hooks';
 import { useDayStore } from '@/features/day/store';
 import { deriveGoals, useProfileStore } from '@/features/profile/store';
@@ -85,6 +86,7 @@ export default function HistoryScreen() {
           })
         )}
       </Card>
+      <AdBanner />
     </Screen>
   );
 }

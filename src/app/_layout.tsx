@@ -7,7 +7,10 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { DbProvider } from '@/db/provider';
+import { usePremiumStore } from '@/features/premium/store';
 import { useProfileStore } from '@/features/profile/store';
+import { initAds } from '@/services/ads';
+import { initPurchases } from '@/services/purchases';
 import { colors } from '@/theme';
 
 SplashScreen.preventAutoHideAsync();
@@ -60,9 +63,22 @@ export default function RootLayout() {
   );
 }
 
+/** Satın alma servisini açılışta; reklamları yalnızca premium olmayan ve kurulumu bitmiş kullanıcıya başlatır. */
+function useMonetization(hasProfile: boolean) {
+  const isPremium = usePremiumStore((s) => s.isPremium);
+  useEffect(() => {
+    initPurchases().catch((err) => console.warn('purchases init failed', err));
+  }, []);
+  useEffect(() => {
+    // İzin formu onboarding'in üstüne çıkmasın: profil oluştuktan sonra.
+    if (hasProfile && !isPremium) initAds();
+  }, [hasProfile, isPremium]);
+}
+
 function RootStack() {
   const { t } = useTranslation();
   const hasProfile = useProfileStore((s) => s.profile !== null);
+  useMonetization(hasProfile);
   const modal = (title: string) => ({ presentation: 'modal' as const, headerShown: true, title });
 
   return (
@@ -84,6 +100,7 @@ function RootStack() {
         <Stack.Screen name="exercise" options={modal(t('exercise.title'))} />
         <Stack.Screen name="chef" options={modal(t('chef.title'))} />
         <Stack.Screen name="edit-profile" options={modal(t('profile.edit'))} />
+        <Stack.Screen name="paywall" options={modal(t('premium.title'))} />
       </Stack.Protected>
       <Stack.Protected guard={!hasProfile}>
         <Stack.Screen name="onboarding" />

@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 
+import { AdBanner } from '@/components/AdBanner';
 import { ErrorText, Loading, Screen } from '@/components/ui';
 import {
   CalorieHero,
@@ -39,6 +40,7 @@ export default function TodayScreen() {
           ))}
           <ExerciseSection day={day} exercises={data.exercises} />
           <WaterCard day={day} ml={data.waterMl} />
+          <AdBanner />
         </>
       )}
     </Screen>

@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { AppText, Button, Card, ErrorText, Field, Loading, Screen } from '@/components/ui';
 import { getFoodByBarcode, saveFood } from '@/db/foods';
 import { useDb } from '@/db/provider';
-import { aiErrorMessage } from '@/features/ai/errors';
+import { AiErrorNotice } from '@/features/ai/AiErrorNotice';
 import type { Food } from '@/features/food/types';
 import { estimateProduct } from '@/services/ai';
 import { lookupBarcode } from '@/services/openfoodfacts';
@@ -19,7 +19,8 @@ type State =
   | { kind: 'not_found'; barcode: string }
   | { kind: 'no_nutrients'; name: string; barcode: string }
   | { kind: 'estimating'; name: string }
-  | { kind: 'error'; message: string };
+  | { kind: 'error'; message: string }
+  | { kind: 'ai_error'; error: unknown };
 
 export default function BarcodeScreen() {
   const { t } = useTranslation();
@@ -70,7 +71,7 @@ export default function BarcodeScreen() {
         barcode,
       });
     } catch (err) {
-      setState({ kind: 'error', message: aiErrorMessage(err, t) });
+      setState({ kind: 'ai_error', error: err });
     }
   };
 
@@ -146,6 +147,13 @@ export default function BarcodeScreen() {
         <Card style={{ gap: spacing.md }}>
           <ErrorText>{state.message}</ErrorText>
           <Button variant="secondary" title={t('common.retry')} onPress={reset} />
+        </Card>
+      )}
+
+      {state.kind === 'ai_error' && (
+        <Card style={{ gap: spacing.md }}>
+          <AiErrorNotice error={state.error} />
+          <Button variant="secondary" title={t('barcode.manual')} onPress={() => manual()} />
         </Card>
       )}
     </Screen>

@@ -7,7 +7,9 @@ import { useTranslation } from 'react-i18next';
 
 import { AppText, Button, Card, ErrorText, Field, ListRow, Screen } from '@/components/ui';
 import { useDayMutations, useWeightLogs } from '@/features/day/hooks';
+import { usePremiumStore } from '@/features/premium/store';
 import { deriveGoals, useProfileStore } from '@/features/profile/store';
+import { showAdPrivacyOptions, useAdsStore } from '@/services/ads';
 import { localDateKey } from '@/lib/date';
 import { confirm } from '@/lib/dialog';
 import { colors, spacing } from '@/theme';
@@ -25,6 +27,8 @@ export default function ProfileScreen() {
   const [weightText, setWeightText] = useState('');
   const [weightError, setWeightError] = useState(false);
   const [weightSaved, setWeightSaved] = useState(false);
+  const isPremium = usePremiumStore((s) => s.isPremium);
+  const adPrivacyRequired = useAdsStore((s) => s.privacyOptionsRequired);
   if (!profile) return null;
 
   const goals = deriveGoals(profile);
@@ -100,6 +104,18 @@ export default function ProfileScreen() {
           <AppText accessibilityLiveRegion="polite" color={colors.accent}>
             {t('profile.weightSaved')}
           </AppText>
+        )}
+      </Card>
+
+      <Card>
+        <ListRow
+          title={t('premium.manage')}
+          subtitle={isPremium ? t('premium.active') : t('premium.headline')}
+          value={isPremium ? undefined : t('premium.upgrade')}
+          onPress={() => router.push('/paywall')}
+        />
+        {adPrivacyRequired && !isPremium && (
+          <ListRow title={t('premium.adPrivacy')} onPress={() => showAdPrivacyOptions().catch(() => {})} />
         )}
       </Card>
 

@@ -5,7 +5,7 @@ import { Image, Platform, StyleSheet, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 import { AppText, Button, Card, Chip, EmptyState, ErrorText, IconButton, Loading, Screen } from '@/components/ui';
-import { aiErrorMessage } from '@/features/ai/errors';
+import { AiErrorNotice } from '@/features/ai/AiErrorNotice';
 import { reviewToEntries, scaledNutrients, toReviewItems, type ReviewItem } from '@/features/ai/photo';
 import { useDayMutations } from '@/features/day/hooks';
 import { useDayStore } from '@/features/day/store';
@@ -35,9 +35,11 @@ export default function PhotoScreen() {
   const [remaining, setRemaining] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [aiError, setAiError] = useState<unknown>(null);
 
   const pick = async (source: 'camera' | 'library') => {
     setError(null);
+    setAiError(null);
     if (source === 'camera') {
       const perm = await ImagePicker.requestCameraPermissionsAsync();
       if (!perm.granted) return setError(t('photo.permission'));
@@ -60,7 +62,7 @@ export default function PhotoScreen() {
       setItems(toReviewItems(res.data.items));
       setRemaining(res.quota.remaining);
     } catch (err) {
-      setError(aiErrorMessage(err, t));
+      setAiError(err);
     } finally {
       setLoading(false);
     }
@@ -96,6 +98,7 @@ export default function PhotoScreen() {
       {preview && <Image source={{ uri: preview }} style={styles.preview} accessibilityIgnoresInvertColors />}
       {loading && <Loading label={t('photo.analyzing')} />}
       {error && <ErrorText>{error}</ErrorText>}
+      {aiError ? <AiErrorNotice error={aiError} /> : null}
 
       {items && items.length === 0 && <EmptyState text={t('photo.noFood')} />}
 

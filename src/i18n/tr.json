@@ -246,5 +246,28 @@
     "maintain": "Koru",
     "gain": "Kilo al"
   },
-  "disclaimer": "Bu uygulama tıbbi tavsiye vermez. Sağlık durumun için bir uzmana danış."
+  "disclaimer": "Bu uygulama tıbbi tavsiye vermez. Sağlık durumun için bir uzmana danış.",
+  "premium": {
+    "title": "Premium",
+    "headline": "Sınırsız AI, reklamsız deneyim",
+    "benefits": {
+      "ai": "Sınırsız fotoğraf analizi, barkod tahmini ve AI Şef",
+      "ads": "Hiç reklam yok",
+      "support": "Uygulamanın gelişimine destek ol"
+    },
+    "monthly": "Aylık",
+    "annual": "Yıllık",
+    "other": "Plan",
+    "subscribe": "{{price}} ile başla",
+    "restore": "Satın alımları geri yükle",
+    "restored": "Premium üyeliğin geri yüklendi.",
+    "nothingToRestore": "Geri yüklenecek bir satın alım bulunamadı.",
+    "active": "Premium üyeliğin aktif. Teşekkürler!",
+    "unavailable": "Abonelikler şu an kullanılamıyor. Mağaza sürümünde aktif olacak.",
+    "failed": "Satın alma tamamlanamadı. Tekrar dene.",
+    "terms": "Abonelik, dönem bitmeden en az 24 saat önce iptal edilmezse otomatik yenilenir. Mağaza hesabının ayarlarından yönetebilir veya iptal edebilirsin.",
+    "upgrade": "Premium'a geç",
+    "manage": "Premium",
+    "adPrivacy": "Reklam gizlilik tercihleri"
+  }
 }

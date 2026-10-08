@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
-import { AppText, Button, Card, Chip, ErrorText, Loading, Screen } from '@/components/ui';
-import { aiErrorMessage } from '@/features/ai/errors';
+import { AppText, Button, Card, Chip, Loading, Screen } from '@/components/ui';
+import { AiErrorNotice } from '@/features/ai/AiErrorNotice';
 import { useDayMutations } from '@/features/day/hooks';
 import { useDayStore } from '@/features/day/store';
 import { defaultMealForTime, MEAL_TYPES, type MealType } from '@/features/food/types';
@@ -64,7 +64,7 @@ export default function ChefScreen() {
       />
 
       {recipe.isPending && <Loading />}
-      {recipe.error && <ErrorText>{aiErrorMessage(recipe.error, t)}</ErrorText>}
+      {recipe.error && <AiErrorNotice error={recipe.error} />}
 
       {data && (
         <>

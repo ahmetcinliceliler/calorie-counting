@@ -38,7 +38,22 @@
         }
       ],
       "expo-localization",
-      "expo-sqlite"
+      "expo-sqlite",
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Barkod okutmak ve yemek fotoğrafı çekmek için kameranı kullanırız.",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Galerindeki bir yemek fotoğrafını analiz etmek için fotoğraflarına erişiriz.",
+          "cameraPermission": "Yemek fotoğrafı çekmek için kameranı kullanırız.",
+          "microphonePermission": false
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

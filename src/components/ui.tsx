@@ -1,5 +1,7 @@
+import { Ionicons } from '@expo/vector-icons';
 import type { ReactNode } from 'react';
 import {
+  ActivityIndicator,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -117,6 +119,145 @@ export function Field({ label, ...rest }: TextInputProps & { label: string }) {
   );
 }
 
+type IconName = keyof typeof Ionicons.glyphMap;
+
+export function IconButton({
+  icon,
+  label,
+  onPress,
+  color = colors.text,
+  size = 22,
+  disabled,
+  style,
+}: {
+  icon: IconName;
+  label: string;
+  onPress: () => void;
+  color?: string;
+  size?: number;
+  disabled?: boolean;
+  style?: StyleProp<ViewStyle>;
+}) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      hitSlop={8}
+      disabled={disabled}
+      onPress={onPress}
+      style={({ pressed }) => [styles.iconButton, (pressed || disabled) && { opacity: 0.4 }, style]}>
+      <Ionicons name={icon} size={size} color={color} />
+    </Pressable>
+  );
+}
+
+export function EmptyState({ text }: { text: string }) {
+  return (
+    <AppText color={colors.textSecondary} style={{ textAlign: 'center', paddingVertical: spacing.lg }}>
+      {text}
+    </AppText>
+  );
+}
+
+export function Loading({ label }: { label?: string }) {
+  return (
+    <View style={{ alignItems: 'center', gap: spacing.sm, paddingVertical: spacing.lg }}>
+      <ActivityIndicator color={colors.accent} />
+      {label && <AppText color={colors.textSecondary}>{label}</AppText>}
+    </View>
+  );
+}
+
+export function ErrorText({ children }: { children: ReactNode }) {
+  return (
+    <AppText accessibilityRole="alert" color={colors.danger}>
+      {children}
+    </AppText>
+  );
+}
+
+/** Dokunulabilir liste satırı: başlık, alt yazı, sağda değer ve isteğe bağlı aksiyon. */
+export function ListRow({
+  title,
+  subtitle,
+  value,
+  onPress,
+  right,
+  accessibilityLabel,
+}: {
+  title: string;
+  subtitle?: string;
+  value?: string;
+  onPress?: () => void;
+  right?: ReactNode;
+  accessibilityLabel?: string;
+}) {
+  const content = (
+    <>
+      <View style={{ flex: 1, gap: 2 }}>
+        <AppText numberOfLines={2}>{title}</AppText>
+        {subtitle ? (
+          <AppText variant="caption" color={colors.textSecondary} numberOfLines={1}>
+            {subtitle}
+          </AppText>
+        ) : null}
+      </View>
+      {value ? <AppText color={colors.textSecondary}>{value}</AppText> : null}
+    </>
+  );
+  if (!onPress) {
+    return (
+      <View style={styles.row}>
+        {content}
+        {right}
+      </View>
+    );
+  }
+  // `right` (ör. yıldız butonu) dokunulabilir alanın DIŞINDA: iç içe buton olmasın.
+  return (
+    <View style={styles.row}>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={accessibilityLabel ?? title}
+        onPress={onPress}
+        style={({ pressed }) => [styles.rowPressable, pressed && { opacity: 0.6 }]}>
+        {content}
+      </Pressable>
+      {right}
+    </View>
+  );
+}
+
+export function Segmented<T extends string>({
+  options,
+  value,
+  onChange,
+}: {
+  options: { value: T; label: string }[];
+  value: T;
+  onChange: (v: T) => void;
+}) {
+  return (
+    <View style={styles.segmented} accessibilityRole="tablist">
+      {options.map((o) => {
+        const selected = o.value === value;
+        return (
+          <Pressable
+            key={o.value}
+            accessibilityRole="tab"
+            accessibilityState={{ selected }}
+            onPress={() => onChange(o.value)}
+            style={[styles.segment, selected && styles.segmentSelected]}>
+            <AppText variant="caption" color={selected ? colors.onAccent : colors.textSecondary}>
+              {o.label}
+            </AppText>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
 export function ProgressBar({ value, color = colors.accent }: { value: number; color?: string }) {
   const pct = Math.max(0, Math.min(1, value)) * 100;
   return (
@@ -166,6 +307,24 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: colors.border,
   },
+  iconButton: { minWidth: 44, minHeight: 44, alignItems: 'center', justifyContent: 'center' },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: spacing.sm,
+    minHeight: 52,
+    paddingVertical: spacing.sm,
+  },
+  rowPressable: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: spacing.sm, alignSelf: 'stretch' },
+  segmented: {
+    flexDirection: 'row',
+    backgroundColor: colors.surface,
+    borderRadius: radius.md,
+    padding: 4,
+    gap: 4,
+  },
+  segment: { flex: 1, minHeight: 36, borderRadius: radius.sm, alignItems: 'center', justifyContent: 'center' },
+  segmentSelected: { backgroundColor: colors.accent },
   track: { height: 6, borderRadius: 3, backgroundColor: colors.surfaceRaised, overflow: 'hidden' },
   fill: { height: '100%', borderRadius: 3 },
 });
